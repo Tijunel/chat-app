@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/Tijunel/chat-app/issues"
   },
-  "homepage": "https://github.com/Tijunel/chat-app#readme"
+  "homepage": "https://github.com/Tijunel/chat-app#readme",
+  "dependencies": {
+    "firebase": "^8.0.1",
+    "nodemon": "^2.0.6"
+  }
 }
