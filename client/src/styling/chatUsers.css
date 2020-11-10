@@ -1,0 +1,6 @@
+#chat-users {
+    border-bottom: 1px solid black;
+    height: calc(10vh - 54px);
+    min-height: 60px;
+    width: 100%;
+}

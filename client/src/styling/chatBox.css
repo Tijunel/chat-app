@@ -1,0 +1,46 @@
+#chat-box {
+    padding: 5px;
+    width: 100vw;
+    height: calc(26.2vh - 54px);
+}
+
+.form-control {
+    font-size: small;
+    width: 100%;
+    border: 1px solid black;
+    height: calc(19vh - 54px) !important;
+}
+
+.btn {
+    color: white;
+    background-color: #4FB3F7;
+    border: 0px;
+    border-radius: 5px;
+    padding: 10px;
+    height: 44px;
+    width: 100%;
+    margin-top: -45px;
+}
+
+.btn div {
+    align-items: center;
+    display: flex;
+    margin-top: -10px;
+}
+
+.btn b {
+    text-align: center;
+    width: 100%;
+}
+
+@media only screen and (max-width: 820px) {
+    .form-control {
+        height: calc(15vh - 54px) !important;
+    }
+}
+
+@media only screen and (max-height: 900px) {
+    .form-control {
+        height: calc(15vh - 54px) !important;
+    }
+}

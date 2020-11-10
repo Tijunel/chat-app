@@ -38,6 +38,7 @@ let deleteOldMessages = (messages, messagesRef) => {
         messagesRef.child(message.messageID).remove();
 }
 
+// POST a new message into the database.
 message.post('/', async (req, res) => {
     try {
         const timestamp = Date.now();

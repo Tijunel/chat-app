@@ -1,0 +1,5 @@
+#chat-area {
+    border-bottom: 1px solid black;
+    height: calc(73.5vh - 54px);
+    width: 100%;
+}

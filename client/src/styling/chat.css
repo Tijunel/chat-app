@@ -1,0 +1,8 @@
+#chat {
+    border: 1px solid black;
+    height: calc(100vh - 54px);
+}
+
+.container {
+    height: calc(100vh - 54px);
+}

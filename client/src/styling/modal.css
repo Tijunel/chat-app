@@ -1,0 +1,19 @@
+.modal-dialog {
+    width: 80% !important;
+    margin: auto !important;
+    margin-top: 40px !important;
+}
+
+.modal #modalButton {
+    background-color: #4FB3F7;
+    border: 0px;
+    border-radius: 5px;
+    padding: 10px;
+    height: 44px;
+    width: 100%;
+}
+
+.modal #modalButton div {
+    margin-top: -10px;
+    height: 44px;
+}
