@@ -4,6 +4,7 @@ const express = require('express');
 const user = express.Router();
 const shortid = require('shortid');
 const firebase = require('../Config/firebase')[0];
+const io = require('../Config/socket-io')[0];
 
 user.get('/', async (req, res) => {
     try {
@@ -61,6 +62,8 @@ user.put('/:id', async (req, res) => {
             username: req.body.username,
             colour: req.body.colour
         });
+        io.emit('username update', { username: req.body.username });
+        io.emit('colour update', { colour: req.body.colour });
         res.status(200).end();
     } catch (e) {
         res.status(500).send('Error changing username!').end();

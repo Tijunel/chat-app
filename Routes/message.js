@@ -3,6 +3,7 @@
 const express = require('express');
 const message = express.Router();
 const firebase = require('../Config/firebase')[0];
+const io = require('../Config/socket-io')[0];
 
 message.get('/', async (req, res) => {
     try {
@@ -46,11 +47,15 @@ message.post('/', async (req, res) => {
             userID: req.body.userID,
             timestamp: timestamp
         });
-        res.status(200).json({ timestamp: timestamp }).end();
+        io.emit('new message', {
+            message: req.body.message,
+            userID: req.body.userID,
+            timestamp: timestamp
+        });
+        res.status(200).end();
     } catch(e) {
         res.status(500).send('Error posting message!').end();
     }
 });
 
 module.exports = message;
-
