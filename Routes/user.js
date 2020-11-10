@@ -1,12 +1,13 @@
+'use strict';
+
 const express = require('express');
 const user = express.Router();
 const shortid = require('shortid');
+const firebase = require('../Config/firebase')[0];
 
 user.get('/', async (req, res) => {
     try {
-        const userRef = firebase
-            .database()
-            .ref('users')
+        const userRef = firebase.database().ref('users');
         var allUsers = [];
         await userRef.once('value').then(snapshot => {
             snapshot.forEach(child => {
@@ -22,69 +23,48 @@ user.get('/', async (req, res) => {
     }
 });
 
-user.get('/id/:name', async (req, res) => {
+user.get('/id/:username', async (req, res) => {
     try {
-        const name = req.params.name;
         const idRef = firebase.database().ref('users');
         var userID = '';
         await idRef.once('value').then(snapshot => {
             snapshot.forEach(child => {
                 var id = child.key;
-                if (child.value.name === name) {
-                    userID = id;
-                    break;
-                }
+                if (child.val().username === req.params.username) userID = id;
             });
         });
         res.status(200).json({ id: userID }).end();
     } catch (e) {
-        res.status(500).send('Error user ID!').end();
+        res.status(500).send('Error getting user ID!').end();
     }
 });
 
 user.post('/create', async (req, res) => {
     try {
-        const username = 'user-' + shortid.generate();
-        const colour = '#4FB3F7';
-        const usersRef = firebase.database().ref('users');
-        const usernameRef = usersRef.child('username');
-        usernameRef.push(username);
-        const colourRef = usersRef.child('colour');
-        colourRef.push(colour);
+        const username = 'user-' + shortid.generate();              // Default username
+        const colour = '#4FB3F7';                                   // Default colour
+        const usersRef = firebase.database().ref('users').push();
+        usersRef.set({
+            username: username,
+            colour: colour
+        });
         res.status(200).end();
     } catch (e) {
         res.status(500).send('Error creating user!').end();
     }
 });
 
-user.put('/name', async (req, res) => {
+user.put('/:id', async (req, res) => {
     try {
-        const name = req.body.username;
-        const userID = req.body.userID;
-        var usernameRef = firebase
-            .database()
-            .ref('users')
-            .child(userID)
-            .child('username');
-        usernameRef.set(name);
+        const usernameRef = firebase.database().ref('users').child(req.params.userID);
+        usernameRef.set({
+            username: req.body.username,
+            colour: req.body.colour
+        });
         res.status(200).end();
     } catch (e) {
         res.status(500).send('Error changing username!').end();
     }
 });
 
-user.put('/colour', async (req, res) => {
-    try {
-        const colour = req.body.colour;
-        const userID = req.body.userID;
-        var colourRef = firebase
-            .database()
-            .ref('users')
-            .child(userID)
-            .child('colour');
-        colourRef.set(colour);
-        res.status(200).end();
-    } catch (e) {
-        res.status(500).send('Error changing colour!').end();
-    }
-});
+module.exports = user;

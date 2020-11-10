@@ -13,7 +13,8 @@ const PORT = 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
-// Session Setup
+
+// Session setup
 app.use(
     session({
         secret: "xCufvwEyu14Tuu7l",
@@ -30,8 +31,9 @@ const message = require('./Routes/message');
 app.use('/api/user', user);
 app.use('/api/message', message);
 
+// Frontend routing
 app.use(express.static(path.join(__dirname, "client/build")));
 app.get("/", (req, res) => {res.sendFile(path.join(__dirname, '.', 'client', 'build', 'index.html'));});
 
-// Begin
+// Start server
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
