@@ -45,16 +45,17 @@ message.post('/', async (req, res) => {
         const messagesRef = firebase.database().ref('messages').push();
         messagesRef.set({
             message: req.body.message,
-            userID: req.body.userID,
+            userID: req.cookies.userData.userID,
             timestamp: timestamp
         });
         io.emit('new message', {
             message: req.body.message,
-            userID: req.body.userID,
+            userID: req.cookies.userData.userID,
             timestamp: timestamp
         });
         res.status(200).end();
     } catch(e) {
+        console.log(e)
         res.status(500).send('Error posting message!').end();
     }
 });

@@ -24,23 +24,25 @@ user.get('/', async (req, res) => {
     }
 });
 
-user.get('/id/:username', async (req, res) => {
+user.get('/username', async (req, res) => {
     try {
         const idRef = firebase.database().ref('users');
-        var userID = '';
+        var username = '';
         await idRef.once('value').then(snapshot => {
             snapshot.forEach(child => {
-                var id = child.key;
-                if (child.val().username === req.params.username) userID = id;
+                var name = child.val().username;
+                if (child.val().userID === req.cookies.userData.userID) 
+                    username = name;
             });
         });
-        res.status(200).json({ id: userID }).end();
+        res.status(200).json({ username: username }).end();
     } catch (e) {
         res.status(500).send('Error getting user ID!').end();
     }
 });
 
-user.post('/create', async (req, res) => {
+// Create a new user
+user.post('/', async (req, res) => {
     try {
         const username = 'user-' + shortid.generate();              // Default username
         const colour = '#4FB3F7';                                   // Default colour
@@ -49,22 +51,31 @@ user.post('/create', async (req, res) => {
             username: username,
             colour: colour
         });
-        res.status(200).end();
+        let userData = {
+            username: username,
+            userID: usersRef.key
+        }
+        res.status(200).cookie('userData', userData).end();
     } catch (e) {
+        console.log(e)
         res.status(500).send('Error creating user!').end();
     }
 });
 
-user.put('/:id', async (req, res) => {
+user.put('/', async (req, res) => {
     try {
-        const usernameRef = firebase.database().ref('users').child(req.params.userID);
+        const usernameRef = firebase.database().ref('users').child(req.cookies.userData.userID);
         usernameRef.set({
             username: req.body.username,
             colour: req.body.colour
         });
         io.emit('username update', { username: req.body.username });
         io.emit('colour update', { colour: req.body.colour });
-        res.status(200).end();
+        let userData = {
+            username: req.body.username,
+            userID: req.cookies.userData.userID
+        }
+        res.status(200).cookie('userData', userData).end();
     } catch (e) {
         res.status(500).send('Error changing username!').end();
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Cookies from 'js-cookie';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -11,13 +12,30 @@ class App extends React.Component {
 		super();
 	}
 
+	componentDidMount = () => {
+		if(!Cookies.get('userData')) {
+			fetch('/api/user/', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' }
+			})
+				.then(res => {
+					if(res.status === 200) {
+
+					}
+				})
+				.catch(err => { console.log(err) })
+		} else {
+
+		}
+	}
+
 	render = () => {
 		return (
 			<React.Fragment>
 				<div id='content'>
 					<TopNavigation />
 					<div id='chat-space'>
-						<Chat/>
+						<Chat />
 					</div>
 				</div>
 			</React.Fragment>
