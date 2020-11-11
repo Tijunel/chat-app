@@ -5,6 +5,9 @@ import '../styling/chatUsers.css';
 export default class ChatUsers extends React.Component {
     constructor() {
         super();
+        this.state ={
+            activeUsers: {}
+        }
     }
 
     componentDidMount = () => {
