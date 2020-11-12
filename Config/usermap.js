@@ -36,7 +36,7 @@ let getJSONMap = () => {
             });
         }
     }
-    return map;
+    return users;
 }
 
 module.exports = [add, remove, getJSONMap];
