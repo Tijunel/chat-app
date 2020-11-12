@@ -19,9 +19,9 @@ export default class MyModal extends React.Component {
     render = () => {
         return (
             <div id="modal">
-                <Modal style={{color: "black"}}show={this.state.showModal} onHide={this.props.modalInfo.failureCallback} top>
+                <Modal style={{ color: "black" }} show={this.state.showModal} onHide={this.props.modalInfo.failureCallback} top>
                     <Modal.Header closeButton>
-                        <Modal.Title style={{fontSize: '25px'}}>{this.props.modalInfo.title}</Modal.Title>
+                        <Modal.Title style={{ fontSize: '25px' }}>{this.props.modalInfo.title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <b>{this.props.modalInfo.message}</b>
@@ -33,7 +33,7 @@ export default class MyModal extends React.Component {
                         {(this.props.modalInfo.cancelOption) ?
                             <Button id="modalButton" onClick={this.props.modalInfo.failureCallback}>
                                 <div><b>Cancel</b></div>
-                        </Button>
+                            </Button>
                             : ""
                         }
                     </Modal.Footer>

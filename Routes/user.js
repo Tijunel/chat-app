@@ -4,7 +4,8 @@ const express = require('express');
 const user = express.Router();
 const shortid = require('shortid');
 const firebase = require('../Config/firebase')[0];
-const io = require('../Config/socket-io')[0];
+const io = require('../server')[0];
+var map = require('../Config/hashmap')[0];
 
 user.get('/', async (req, res) => {
     try {
@@ -12,9 +13,9 @@ user.get('/', async (req, res) => {
         var allUsers = [];
         await userRef.once('value').then(snapshot => {
             snapshot.forEach(child => {
-                allUsers.push({ 
-                    username: child.val().username, 
-                    colour: child.val().colour 
+                allUsers.push({
+                    username: child.val().username,
+                    colour: child.val().colour
                 });
             });
         });
@@ -24,24 +25,12 @@ user.get('/', async (req, res) => {
     }
 });
 
-user.get('/username', async (req, res) => {
-    try {
-        const idRef = firebase.database().ref('users');
-        var username = '';
-        await idRef.once('value').then(snapshot => {
-            snapshot.forEach(child => {
-                var name = child.val().username;
-                if (child.val().userID === req.cookies.userData.userID) 
-                    username = name;
-            });
-        });
-        res.status(200).json({ username: username }).end();
-    } catch (e) {
-        res.status(500).send('Error getting user ID!').end();
-    }
-});
-
 // Create a new user
+
+const createUniqueColor = () => {
+
+}
+
 user.post('/', async (req, res) => {
     try {
         const username = 'user-' + shortid.generate();              // Default username
@@ -52,12 +41,13 @@ user.post('/', async (req, res) => {
             colour: colour
         });
         let userData = {
+            userID: usersRef.key,
             username: username,
-            userID: usersRef.key
+            colour: colour
         }
+        map.set(userData.userID, { username: username, colour: colour });
         res.status(200).cookie('userData', userData).end();
     } catch (e) {
-        console.log(e)
         res.status(500).send('Error creating user!').end();
     }
 });
@@ -69,11 +59,13 @@ user.put('/', async (req, res) => {
             username: req.body.username,
             colour: req.body.colour
         });
-        io.emit('username update', { username: req.body.username });
-        io.emit('colour update', { colour: req.body.colour });
+        map.set(userData.userID, { username: req.body.username, colour: req.body.colour });
+        io.emit('user update', { userID: req.cookies.userData.userID, username: req.body.username });
+        io.emit('colour update', { userID: req.cookies.userData.userID, colour: req.body.colour });
         let userData = {
+            userID: req.cookies.userData.userID,
             username: req.body.username,
-            userID: req.cookies.userData.userID
+            colour: req.body.colour
         }
         res.status(200).cookie('userData', userData).end();
     } catch (e) {

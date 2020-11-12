@@ -14,15 +14,9 @@ export default class Chat extends React.Component {
         return (
             <div id='chat'>
                 <Container style={{ height: 'calc(100vh - 64px)' }}>
-                    <Row>
-                        <ChatUsers />
-                    </Row>
-                    <Row>
-                        <ChatArea />
-                    </Row>
-                    <Row>
-                        <ChatBox />
-                    </Row>
+                    <Row><ChatUsers /></Row>
+                    <Row><ChatArea /></Row>
+                    <Row><ChatBox /></Row>
                 </Container>
             </div>
         );

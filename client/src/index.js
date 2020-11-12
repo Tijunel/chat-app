@@ -1,32 +1,49 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Cookies from 'js-cookie';
+import SocketManager from './socket';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import TopNavigation from './navigation/topNav';
 import Chat from './chat/chat';
+import ErrorPage from './chat/error';
 
 class App extends React.Component {
 	constructor() {
 		super();
+		this.state = {
+			showError: false,
+			socket: null
+		}
 	}
 
 	componentDidMount = () => {
-		if(!Cookies.get('userData')) {
+		this.tryConnection();
+	}
+
+	tryConnection = () => {
+		if (!Cookies.get('userData')) {
 			fetch('/api/user/', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' }
 			})
 				.then(res => {
-					if(res.status === 200) {
-
-					}
+					if (res.status === 200) this.establishConnection();
+					else this.showError();
 				})
-				.catch(err => { console.log(err) })
-		} else {
-
+				.catch(err => { this.showError(); })
 		}
+		else this.establishConnection();
+	}
+
+	establishConnection = () => {
+		SocketManager.createInstance();
+		this.setState({ showError: false });
+	}
+
+	showError = () => {
+		this.setState({ showError: true });
 	}
 
 	render = () => {
@@ -34,9 +51,15 @@ class App extends React.Component {
 			<React.Fragment>
 				<div id='content'>
 					<TopNavigation />
-					<div id='chat-space'>
-						<Chat />
-					</div>
+					{!this.state.showError ?
+						<div id='chat-space'>
+							<Chat />
+						</div>
+						:
+						<div id='chat-space'>
+							<ErrorPage retryConnection={this.tryConnection} />
+						</div>
+					}
 				</div>
 			</React.Fragment>
 		);

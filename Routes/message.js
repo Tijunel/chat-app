@@ -3,7 +3,7 @@
 const express = require('express');
 const message = express.Router();
 const firebase = require('../Config/firebase')[0];
-const io = require('../Config/socket-io')[0];
+const io = require('../server')[0];
 
 message.get('/', async (req, res) => {
     try {

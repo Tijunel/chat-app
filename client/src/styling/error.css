@@ -1,0 +1,9 @@
+#error {
+    text-align: center;
+    height: calc(100vh - 54px);
+    margin-top: 10%;
+}
+
+#retry-button {
+    margin-top: 10%;
+}
