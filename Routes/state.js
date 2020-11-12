@@ -2,7 +2,7 @@
 
 const express = require('express');
 const state = express.Router();
-var getJSONMap = require('../Config/hashmap')[1];
+var getJSONMap = require('../Config/usermap')[2];
 
 state.get('/', async (req, res) => {
     var users = getJSONMap();

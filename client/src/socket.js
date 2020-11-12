@@ -1,7 +1,7 @@
 import SocketIOClient from 'socket.io-client';
 
-class SocketManager {
-    instance = null;
+export default class SocketManager {
+    static instance = null;
     constructor() {
         this.socket = SocketIOClient('http://localhost:5000');
     }
@@ -10,11 +10,11 @@ class SocketManager {
         return this.socket;
     }
 
-    createInstance = () => {
+    static createInstance = () => {
         if (this.instance === null) this.instance = new SocketManager();
     }
 
-    getInstance = () => {
+    static getInstance = () => {
         if(this.instance === null) this.instance = new SocketManager();
         else return this.instance;
     }

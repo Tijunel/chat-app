@@ -1,5 +1,5 @@
 import React from 'react';
-import socketIOClient from 'socket.io-client';
+import SocketManager from '../socket';
 import '../styling/chatUsers.css';
 
 export default class ChatUsers extends React.Component {
@@ -18,9 +18,8 @@ export default class ChatUsers extends React.Component {
             .then(async res => {
                 if(res.status === 200) {
                     res = await res.json();
-                    console.log(res)
                     this.generateUI(res);
-                    const socket = socketIOClient("http://localhost:5000", { reconnection: false });
+                    const socket = SocketManager.getInstance().getSocket();
                     socket.on('active users', (data) => {
                         this.generateUI(data);
                     });
@@ -36,9 +35,10 @@ export default class ChatUsers extends React.Component {
     generateUI = (activeUsers) => {
         var UI = [];
         var i = 0;
-        for(const userData in activeUsers) {
+        console.log(activeUsers)
+        for(const userData of activeUsers) {
             UI.push(
-                <div style={{color: userData.colour}} key={i}>
+                <div style={{color: userData.colour}} key={i} id='user'>
                     <b>{userData.username}</b>
                 </div>
             );
@@ -50,6 +50,7 @@ export default class ChatUsers extends React.Component {
     render = () => {
         return (
             <div id='chat-users'>
+                <div><b>Users</b></div>
                 {this.state.UI}
             </div>
         );

@@ -14,7 +14,7 @@ class App extends React.Component {
 		super();
 		this.state = {
 			showError: false,
-			socket: null
+			setupDone: false
 		}
 	}
 
@@ -39,7 +39,7 @@ class App extends React.Component {
 
 	establishConnection = () => {
 		SocketManager.createInstance();
-		this.setState({ showError: false });
+		this.setState({ showError: false, setupDone: true });
 	}
 
 	showError = () => {
@@ -51,13 +51,22 @@ class App extends React.Component {
 			<React.Fragment>
 				<div id='content'>
 					<TopNavigation />
-					{!this.state.showError ?
-						<div id='chat-space'>
-							<Chat />
-						</div>
+					{this.state.setupDone ?
+						(
+							!this.state.showError ?
+								<div id='chat-space'>
+									<Chat />
+								</div>
+								:
+								<div id='chat-space'>
+									<ErrorPage retryConnection={this.tryConnection} />
+								</div>
+						)
 						:
 						<div id='chat-space'>
-							<ErrorPage retryConnection={this.tryConnection} />
+							<div id='error'>
+
+							</div>
 						</div>
 					}
 				</div>

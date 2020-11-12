@@ -5,7 +5,7 @@ const user = express.Router();
 const shortid = require('shortid');
 const firebase = require('../Config/firebase')[0];
 const io = require('../server')[0];
-var map = require('../Config/hashmap')[0];
+var add = require('../Config/usermap')[0];
 
 user.get('/', async (req, res) => {
     try {
@@ -45,7 +45,7 @@ user.post('/', async (req, res) => {
             username: username,
             colour: colour
         }
-        map.set(userData.userID, { username: username, colour: colour });
+        add(userData.userID, { username: username, colour: colour });
         res.status(200).cookie('userData', userData).end();
     } catch (e) {
         res.status(500).send('Error creating user!').end();
@@ -59,7 +59,7 @@ user.put('/', async (req, res) => {
             username: req.body.username,
             colour: req.body.colour
         });
-        map.set(userData.userID, { username: req.body.username, colour: req.body.colour });
+        add(userData.userID, { username: req.body.username, colour: req.body.colour }); // Should be replace
         io.emit('user update', { userID: req.cookies.userData.userID, username: req.body.username });
         io.emit('colour update', { userID: req.cookies.userData.userID, colour: req.body.colour });
         let userData = {
