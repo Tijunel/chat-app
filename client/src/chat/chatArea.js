@@ -16,7 +16,6 @@ export default class ChatArea extends React.Component {
     }
 
     componentDidMount = () => {
-        // Get all messages, add socket listener for new messages
         fetch('/api/message/', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
@@ -30,7 +29,7 @@ export default class ChatArea extends React.Component {
                         this.addMessage(message);
                     });
                     socket.on('user update', (data) => {
-
+                        this.updateMessages(data);
                     });
                 }
                 else this.setState({ showError: true });
@@ -94,11 +93,10 @@ export default class ChatArea extends React.Component {
     }
 
     updateMessages = () => {
-
+        
     }
 
     scrollToBottom = () => {
-        console.log(this.bottomRef.current)
         if(this.bottomRef.current === null) return;
         this.bottomRef.current.scrollIntoView({ behaviour: 'smooth' });
     }

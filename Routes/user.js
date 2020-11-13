@@ -78,7 +78,7 @@ user.put('/', async (req, res) => {
             colour: req.body.colour
         });
         replace(userData.userID, { username: req.body.username, colour: req.body.colour }); // Should be replace
-        io.emit('user update', { userID: req.cookies.userData.userID, username: req.body.username });
+        io.emit('user update', { userID: req.cookies.userData.userID, username: req.body.username, colour: req.body.colour });
         let userData = {
             userID: req.cookies.userData.userID,
             username: req.body.username,

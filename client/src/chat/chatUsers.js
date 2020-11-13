@@ -8,6 +8,7 @@ export default class ChatUsers extends React.Component {
     constructor() {
         super();
         this.state = {
+            users: [],
             UI: [],
             showError: false
         }
@@ -26,10 +27,17 @@ export default class ChatUsers extends React.Component {
                     socket.on('active users', (data) => {
                         this.generateUI(data); // Only add or remove
                     });
+                    socket.on('user update', (data) => {
+                        this.updateMessages(data);
+                    });
                 }
                 else this.setState({ showError: true });
             })
             .catch(err => { this.setState({ showError: true }); });
+    }
+
+    updateUser = (user) => {
+
     }
 
     generateUI = (activeUsers) => {
@@ -52,7 +60,7 @@ export default class ChatUsers extends React.Component {
             i++;
         }
         if (row.length !== 0) UI.push(<Row>{row}</Row>);
-        this.setState({ UI: UI, showError: false });
+        this.setState({ users: activeUsers, UI: UI, showError: false });
     }
 
     render = () => {

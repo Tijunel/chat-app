@@ -8,7 +8,6 @@ const firebase = require('../Config/firebase')[0];
 message.get('/', async (req, res) => {
     try {
         const messagesRef = firebase.database().ref('messages');
-        const usersRef = firebase.database().ref('users');
         var allMessages = [];
         await messagesRef.once('value').then(snapshot => {
             snapshot.forEach(child => {
