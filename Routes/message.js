@@ -5,6 +5,7 @@ const message = express.Router();
 const firebase = require('../Config/firebase')[0];
 const io = require('../server')[0];
 
+// Get the past 200 messages and delete the old ones. 
 message.get('/', async (req, res) => {
     try {
         const messagesRef = firebase.database().ref('messages');
@@ -55,7 +56,6 @@ message.post('/', async (req, res) => {
         });
         res.status(200).end();
     } catch(e) {
-        console.log(e)
         res.status(500).send('Error posting message!').end();
     }
 });

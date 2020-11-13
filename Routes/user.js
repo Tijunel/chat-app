@@ -5,7 +5,8 @@ const user = express.Router();
 const shortid = require('shortid');
 const firebase = require('../Config/firebase')[0];
 const io = require('../server')[0];
-var add = require('../Config/usermap')[0];
+const add = require('../Config/usermap')[0];
+const replace = require('../Config/usermap')[2];
 
 user.get('/', async (req, res) => {
     try {
@@ -25,16 +26,16 @@ user.get('/', async (req, res) => {
     }
 });
 
-// Create a new user
-
 const createUniqueColor = () => {
-
+    var number = Math.floor(Math.random() * 0xFFFFFF);    // Get random number in the colour range
+    return number.toString(16);                 // Return hex string
 }
 
+// Create a new user
 user.post('/', async (req, res) => {
     try {
         const username = 'user-' + shortid.generate();              // Default username
-        const colour = '#4FB3F7';                                   // Default colour
+        const colour = '#' + createUniqueColor();                   // Default colour
         const usersRef = firebase.database().ref('users').push();
         usersRef.set({
             username: username,
@@ -59,7 +60,7 @@ user.put('/', async (req, res) => {
             username: req.body.username,
             colour: req.body.colour
         });
-        add(userData.userID, { username: req.body.username, colour: req.body.colour }); // Should be replace
+        replace(userData.userID, { username: req.body.username, colour: req.body.colour }); // Should be replace
         io.emit('user update', { userID: req.cookies.userData.userID, username: req.body.username });
         io.emit('colour update', { userID: req.cookies.userData.userID, colour: req.body.colour });
         let userData = {

@@ -38,6 +38,10 @@ export default class ChatBox extends React.Component {
             });
     }
 
+    parseCommands = (message) => {
+        
+    }
+
     handleSubmission = () => {
         if (this.formRef.current.value === '') return;
         else this.sendMessage(this.formRef.current.value);

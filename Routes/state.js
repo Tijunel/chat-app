@@ -2,10 +2,10 @@
 
 const express = require('express');
 const state = express.Router();
-var getJSONMap = require('../Config/usermap')[2];
+const getUserList = require('../Config/usermap')[3];
 
 state.get('/', async (req, res) => {
-    var users = getJSONMap();
+    var users = getUserList();
     res.status(200).json(users).end();
 });
 

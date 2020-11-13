@@ -23,6 +23,7 @@ class App extends React.Component {
 	}
 
 	tryConnection = () => {
+		// Don't allow more than 6 users
 		if (!Cookies.get('userData')) {
 			fetch('/api/user/', {
 				method: 'POST',

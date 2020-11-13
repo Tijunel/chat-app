@@ -32,18 +32,17 @@ const server = require('http').createServer(app);
 server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 // Socket.io setup
-var map = require('./Config/usermap')[0];
-let add = require('./Config/usermap')[0];
-let remove = require('./Config/usermap')[1];
-let getJSONMap = require('./Config/usermap')[2];
-var io = require("socket.io")(server);
+const add = require('./Config/usermap')[0];
+const remove = require('./Config/usermap')[1];
+const getUserList = require('./Config/usermap')[3];
+const io = require("socket.io")(server);
 io.on('connection', (socket) => {
 	const userData = cookieParser.JSONCookie(cookie.parse(socket.handshake.headers.cookie).userData);
 	add(userData.userID, { username: userData.username, colour: userData.colour });
-	io.emit('active users', getJSONMap());
+	io.emit('active users', getUserList());
 	socket.on('disconnect', () => {
 		remove(userData.userID);
-		io.emit('active users', getJSONMap());
+		io.emit('active users', getUserList());
 	});
 });
 
