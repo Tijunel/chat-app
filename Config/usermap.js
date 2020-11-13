@@ -15,11 +15,18 @@ let add = (key, value) => {
 let remove = (key) => {
     var index = 0;
     for(let user in map) {
-        if (key === user.userID) {
-            map = map.splice(index, 1);
+        console.log(user)
+        if (key === map[user].userID) {
+            console.log(map)
+            map.splice(index, 1);
+            console.log(map)
         }
         index++;
     }
+}
+
+let replace = (key, value) => {
+
 }
 
 let getJSONMap = () => {

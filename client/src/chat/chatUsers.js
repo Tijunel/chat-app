@@ -1,4 +1,5 @@
 import React from 'react';
+import {Row, Col} from 'react-bootstrap';
 import SocketManager from '../socket';
 import '../styling/chatUsers.css';
 
@@ -34,16 +35,23 @@ export default class ChatUsers extends React.Component {
 
     generateUI = (activeUsers) => {
         var UI = [];
+        var row = [];
         var i = 0;
-        console.log(activeUsers)
-        for(const userData of activeUsers) {
-            UI.push(
-                <div style={{color: userData.colour}} key={i} id='user'>
-                    <b>{userData.username}</b>
-                </div>
+        for(const userData of activeUsers) { // Use rows and columns
+            row.push(
+                <Col>
+                    <div style={{ color: userData.colour, fontSize: '16px' }} key={i} id='user'>
+                        <b>{userData.username}</b>
+                    </div>
+                </Col>
             );
+            if(row.length === 3) {
+                UI.push(<Row>{row}</Row>);
+                row = [];
+            } 
             i++;
         }
+        if (row.length !== 0) UI.push(<Row>{row}</Row>);
         this.setState({ UI: UI });
     }
 
