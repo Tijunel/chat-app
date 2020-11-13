@@ -39,7 +39,7 @@ export default class ChatBox extends React.Component {
     }
 
     parseCommands = (message) => {
-        
+
     }
 
     handleSubmission = () => {
@@ -47,11 +47,11 @@ export default class ChatBox extends React.Component {
         else this.sendMessage(this.formRef.current.value);
     }
 
-    render = () => {
+    render = () => { // Align to bottom
         return (
             <div id='chat-box'>
                 <Form.Group>
-                    <Form.Control ref={this.formRef} as="textarea" placeholder="Type here..." />
+                    <Form.Control ref={this.formRef} as="textarea" placeholder='Type here... commands: "/name x" or "/color RRGGBB"'/>
                 </Form.Group>
                 <Button onClick={this.handleSubmission} disabled={this.state.buttonDisabled}><div><b>{this.state.buttonTitle}</b></div></Button>
             </div>

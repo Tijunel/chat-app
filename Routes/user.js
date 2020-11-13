@@ -26,6 +26,23 @@ user.get('/', async (req, res) => {
     }
 });
 
+user.get('/:id', async (req, res) => {
+    try {
+        var details = {}
+        const userRef = firebase.database().ref('users/').child(req.params.id);
+        await userRef.once('value').then(snapshot => {
+            details = {
+                username: snapshot.val().username,
+                colour: snapshot.val().colour
+            }
+        });
+        res.status(200).json(details).end();
+    } catch (e) {
+        console.log(e)
+        res.status(500).send('Error getting user details!').end();
+    }
+});
+
 const createUniqueColor = () => {
     var number = Math.floor(Math.random() * 0xFFFFFF);    // Get random number in the colour range
     return number.toString(16);                 // Return hex string
@@ -62,7 +79,6 @@ user.put('/', async (req, res) => {
         });
         replace(userData.userID, { username: req.body.username, colour: req.body.colour }); // Should be replace
         io.emit('user update', { userID: req.cookies.userData.userID, username: req.body.username });
-        io.emit('colour update', { userID: req.cookies.userData.userID, colour: req.body.colour });
         let userData = {
             userID: req.cookies.userData.userID,
             username: req.body.username,

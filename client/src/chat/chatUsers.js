@@ -37,7 +37,7 @@ export default class ChatUsers extends React.Component {
         var row = [];
         var i = 0;
         // Re-arrange active users so "you" are first
-        for (const userData of activeUsers) { 
+        for (const userData of activeUsers) {
             row.push(
                 <Col>
                     <div style={{ color: userData.colour, fontSize: '12px' }} key={i}>
@@ -58,8 +58,8 @@ export default class ChatUsers extends React.Component {
     render = () => {
         return (
             <div id='chat-users'>
-                <div style={{fontSize: '16px'}}><b>Active Users</b></div>
-                {!this.state.showError ? (this.state.UI.length > 0 ? this.state.UI : <div style={{ fontSize: '12px' }}>Loading...</div>) : <div style={{fontSize: '12px'}}>Could not fetch active users. Try refreshing!</div>}
+                <div style={{ fontSize: '16px' }}><b>Active Users</b></div>
+                {!this.state.showError ? (this.state.UI.length > 0 ? this.state.UI : <div style={{ fontSize: '12px' }}>Loading...</div>) : <div style={{ fontSize: '12px' }}>Could not fetch active users. Try refreshing!</div>}
             </div>
         );
     }

@@ -1,5 +1,13 @@
 #chat-area {
-    border-bottom: 1px solid black;
-    height: calc(73.5vh - 54px);
     width: 100%;
+    height: calc(100% - 54px);
+    position: relative;
+    overflow-y:scroll !important;
+}
+
+#message-area {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    max-height:100%;
 }
