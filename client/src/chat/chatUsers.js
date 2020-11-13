@@ -25,10 +25,10 @@ export default class ChatUsers extends React.Component {
                     this.generateUI(res);
                     const socket = SocketManager.getInstance().getSocket();
                     socket.on('active users', (data) => {
-                        this.generateUI(data); // Only add or remove
+                        this.generateUI(data); 
                     });
                     socket.on('user update', (data) => {
-                        this.updateMessages(data);
+                        this.updateUser(data);
                     });
                 }
                 else this.setState({ showError: true });
@@ -36,8 +36,15 @@ export default class ChatUsers extends React.Component {
             .catch(err => { this.setState({ showError: true }); });
     }
 
-    updateUser = (user) => {
-
+    updateUser = (userUpdate) => {
+        let users = [...this.state.users];
+        for(let i in users) {
+            if(users[i].userID === userUpdate.userID) {
+                users[i].username = userUpdate.username;
+                users[i].colour = userUpdate.colour;
+            }
+        }
+        this.generateUI(users);
     }
 
     generateUI = (activeUsers) => {
@@ -47,19 +54,20 @@ export default class ChatUsers extends React.Component {
         // Re-arrange active users so "you" are first
         for (const userData of activeUsers) {
             row.push(
-                <Col>
+                <Col key={i}>
                     <div style={{ color: userData.colour, fontSize: '12px' }} key={i}>
                         <b>{userData.username + ((JSON.parse(Cookies.get('userData').split('j:')[1]).userID === userData.userID) ? " (You)" : "")}</b>
                     </div>
                 </Col>
             );
             if (row.length === 2) {
-                UI.push(<Row>{row}</Row>);
+                let key = Math.floor(i / 2);
+                UI.push(<Row key={key}>{row}</Row>);
                 row = [];
             }
             i++;
         }
-        if (row.length !== 0) UI.push(<Row>{row}</Row>);
+        if (row.length !== 0) UI.push(<Row key={1}>{row}</Row>);
         this.setState({ users: activeUsers, UI: UI, showError: false });
     }
 

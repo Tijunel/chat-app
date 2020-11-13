@@ -41,7 +41,7 @@ export default class ChatArea extends React.Component {
 
     generateMessageUI = async (messages) => {
         let messageUI = [];
-        var index = 0;
+        var i = 0;
         for (let message of messages) {
             await fetch('/api/user/' + message.userID, {
                 method: 'GET',
@@ -55,7 +55,7 @@ export default class ChatArea extends React.Component {
                         let timestamp = new Date(message.timestamp);
                         messageUI.push(
                             <Message
-                                key={index}
+                                key={i}
                                 message={message.message}
                                 timestamp={timestamp.toLocaleString()}
                                 username={res.username}
@@ -63,7 +63,7 @@ export default class ChatArea extends React.Component {
                                 colour={res.colour}
                             />
                         );
-                        index++;
+                        i++;
                     }
                     else this.setState({ showError: true });
                 })
@@ -80,7 +80,7 @@ export default class ChatArea extends React.Component {
         let timestamp = new Date(message.timestamp);
         messageUI.push(
             <Message
-                key={messages.length}
+                key={messageUI.length + 1}
                 message={message.message}
                 timestamp={timestamp.toLocaleString()}
                 username={message.username}
@@ -92,12 +92,31 @@ export default class ChatArea extends React.Component {
         this.scrollToBottom();
     }
 
-    updateMessages = () => {
-        
+    updateMessages = (userUpdate) => {
+        let messages = [...this.state.messages];
+        let messageUI = [...this.state.messageUI];
+        for (let i in messages) {
+            if (messages[i].userID === userUpdate.userID) {
+                messages[i].username = userUpdate.username;
+                messages[i].colour = userUpdate.colour;
+                let timestamp = new Date(messages[i].timestamp);
+                messageUI[i] = (
+                    <Message
+                        key={i}
+                        message={messages[i].message}
+                        timestamp={timestamp.toLocaleString()}
+                        username={userUpdate.username}
+                        userID={messages[i].userID}
+                        colour={userUpdate.colour}
+                    />
+                );
+            } 
+        }
+        this.setState({ messages: messages, messageUI: messageUI });
     }
 
     scrollToBottom = () => {
-        if(this.bottomRef.current === null) return;
+        if (this.bottomRef.current === null) return;
         this.bottomRef.current.scrollIntoView({ behaviour: 'smooth' });
     }
 

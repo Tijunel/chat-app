@@ -81,7 +81,7 @@ export default class ChatBox extends React.Component {
             const color = '#' + text.split(" ")[1];
             let style = new Option().style;
             style.color = color;
-            if (style.color === '') {
+            if (style.color === '' || color === "#FFFFFF" || color.length < 6) {
                 this.showCommandError("Invalid color...");
                 return;
             }
