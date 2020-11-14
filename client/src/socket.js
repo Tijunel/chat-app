@@ -6,7 +6,7 @@ export default class SocketManager {
         // CHANGE ME 
         // For CPSC linux: http://csx3.cs.ucalgary.ca:5000/
         // For localhost: http://localhost:5000/
-        this.socket = SocketIOClient('http://localhost:5000/'); 
+        this.socket = SocketIOClient('http://csx3.cs.ucalgary.ca:5000/'); 
     }
 
     getSocket = () => {
