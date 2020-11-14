@@ -74,7 +74,7 @@ export default class ChatArea extends React.Component {
     addMessage = (message) => {
         let messages = [...this.state.messages];
         messages.push(message);
-        let messageUI = [this.state.messageUI];
+        let messageUI = [...this.state.messageUI];
         let timestamp = new Date(message.timestamp);
         messageUI.push(
             <Message
