@@ -3,7 +3,7 @@ import SocketIOClient from 'socket.io-client';
 export default class SocketManager {
     static instance = null;
     constructor() {
-        this.socket = SocketIOClient('http://csx3.cs.ucalgary.ca:3000/'); // CHANGE ME 
+        this.socket = SocketIOClient('http://csx3.cs.ucalgary.ca:5000/'); // CHANGE ME 
     }
 
     getSocket = () => {
