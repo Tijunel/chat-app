@@ -122,8 +122,10 @@ export default class ChatArea extends React.Component {
         return (
             <div id='chat-area'>
                 <div id='message-area'>
-                    {this.state.messageUI}
-                    <div id='bottom-ref' ref={this.bottomRef}></div>
+                    <div id='messages'>
+                        {this.state.messageUI}
+                        <div id='bottom-ref' ref={this.bottomRef}></div>
+                    </div>
                 </div>
             </div>
         );

@@ -3,6 +3,11 @@
 }
 
 .container {
-    height: calc(100vh - 44px);
     padding: 0px;
+}
+
+@media only screen and (max-width: 820px) {
+    #chat {
+        height: calc(100vh - 200px);
+    }
 }

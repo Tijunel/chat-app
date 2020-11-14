@@ -26,7 +26,6 @@ html {
   max-width: 960px;
   min-width: 820px;
   background-color: white;
-  height: calc(100vh - 44px);
   margin: auto;
   padding-left: 5px;
   padding-right: 5px;
@@ -38,10 +37,7 @@ html {
     max-width: 800px;
     min-width: 0px;
   }
-  #chat {
-    height: calc(100vh - 200px) !important;
-  }
-  .container {
-    height: calc(100vh - 200px) !important;
+  #content {
+    background-color: #fff;
   }
 }

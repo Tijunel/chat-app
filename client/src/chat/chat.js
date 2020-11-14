@@ -13,9 +13,9 @@ export default class Chat extends React.Component {
     render = () => {
         return (
             <div id='chat'>
-                <Container style={{ height: 'calc(100vh - 54px)' }}>
+                <Container>
                     <div id='chat' style={{display: 'grid', gridTemplateRows: '80% 20%'}}>
-                        <div><ChatUsers /><ChatArea /></div>
+                        <div id='chat-container'><ChatUsers /><ChatArea /></div>
                         <div style={{zIndex: '10000'}}><ChatBox /></div> 
                     </div>
                 </Container>

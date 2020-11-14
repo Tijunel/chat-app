@@ -4,6 +4,7 @@
     min-height: 150px;
     height: 100%;
     border-top: 1px solid black;
+    z-index: 10000;
 }
 
 .form-control {
