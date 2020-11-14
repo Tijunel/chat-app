@@ -1,7 +1,6 @@
 import React from 'react';
 import Message from './message';
 import SocketManager from '../socket';
-import Cookies from 'js-cookie';
 
 import '../styling/chatArea.css';
 

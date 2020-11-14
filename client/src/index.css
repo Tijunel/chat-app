@@ -17,7 +17,8 @@ html {
 
 #content {
   background-color: #0494F5;
-  max-width: 100vw;
+  overflow-x: hidden;
+  height: 100vh;
 }
 
 #chat-space {
@@ -36,7 +37,6 @@ html {
     width: 100%;
     max-width: 800px;
     min-width: 0px;
-    height: calc(100vh - 200px) !important;
   }
   #chat {
     height: calc(100vh - 200px) !important;
