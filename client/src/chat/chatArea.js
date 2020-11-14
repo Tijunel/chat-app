@@ -1,6 +1,7 @@
 import React from 'react';
 import Message from './message';
 import SocketManager from '../socket';
+import Cookies from 'js-cookie';
 
 import '../styling/chatArea.css';
 
@@ -34,9 +35,7 @@ export default class ChatArea extends React.Component {
                 }
                 else this.setState({ showError: true });
             })
-            .catch(err => {
-                this.setState({ showError: true });
-            });
+            .catch(err => { this.setState({ showError: true }); });
     }
 
     generateMessageUI = async (messages) => {
@@ -80,7 +79,7 @@ export default class ChatArea extends React.Component {
         let timestamp = new Date(message.timestamp);
         messageUI.push(
             <Message
-                key={messageUI.length + 1}
+                key={messageUI.length}
                 message={message.message}
                 timestamp={timestamp.toLocaleString()}
                 username={message.username}
@@ -106,11 +105,11 @@ export default class ChatArea extends React.Component {
                         message={messages[i].message}
                         timestamp={timestamp.toLocaleString()}
                         username={userUpdate.username}
-                        userID={messages[i].userID}
+                        userID={userUpdate.userID}
                         colour={userUpdate.colour}
                     />
                 );
-            } 
+            }
         }
         this.setState({ messages: messages, messageUI: messageUI });
     }

@@ -48,10 +48,19 @@ export default class ChatUsers extends React.Component {
     }
 
     generateUI = (activeUsers) => {
+        // Re-arrange active users so "you" are first
+        var index = 0;
+        for (let userData of activeUsers) {
+            if (JSON.parse(Cookies.get('userData').split('j:')[1]).userID === userData.userID) break;
+            index++;
+        }
+        const temp = activeUsers[0];
+        activeUsers[0] = activeUsers[index];
+        activeUsers[index] = temp;
+        // Create UI
         var UI = [];
         var row = [];
         var i = 0;
-        // Re-arrange active users so "you" are first
         for (const userData of activeUsers) {
             row.push(
                 <Col key={i}>

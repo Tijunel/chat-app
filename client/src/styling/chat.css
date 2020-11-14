@@ -1,8 +1,8 @@
 #chat {
-    height: calc(100vh - 54px);
+    height: calc(100vh - 44px);
 }
 
 .container {
-    height: calc(100vh - 44px) !important;
+    height: calc(100vh - 44px);
     padding: 0px;
 }
